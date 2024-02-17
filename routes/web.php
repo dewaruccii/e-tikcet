@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\FetchDataController;
+use App\Http\Controllers\BillingController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [HomeController::class, 'index']);
+Route::group(['prefix' => 'fetch', 'as' => 'fetch.'], function () {
+    Route::post('/airport', [FetchDataController::class, 'fetchDataAirport'])->name('airport');
+});
+Route::group(['prefix' => 'billings', 'middleware' => ['auth'], 'as' => 'billings.', 'controller' => BillingController::class], function () {
+    Route::get('/{uuid}', 'index')->name('index');
+    Route::get('/{uuid}/information', 'information')->name('information');
 });
