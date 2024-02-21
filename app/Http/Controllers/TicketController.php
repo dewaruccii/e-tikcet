@@ -12,6 +12,7 @@ class TicketController extends Controller
     public function index()
     {
         $billing = Billing::where('user_id', Auth::user()->id)->where('status_id', 4)->latest()->get();
+        // dd($billing);
         return view('ticket.index', compact('billing'));
     }
     public function detail($uuid)

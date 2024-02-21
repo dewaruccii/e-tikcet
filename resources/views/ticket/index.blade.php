@@ -190,6 +190,9 @@
                     </div>
 
                     @foreach ($value->Detail as $item)
+                        @php
+                            // dd($billing);
+                        @endphp
                         <div class="col-md-6">
 
                             <article class="card fl-left">
@@ -205,24 +208,25 @@
                                         <div id="barcode-{{ $item->uuid }}" class="text-center"></div>
                                     </div>
                                     <small>{{ $item->name }}</small>
-                                    <h3>{{ $billing->Product?->Detail?->FromAirport?->name }},
-                                        {{ $billing->Product?->Detail?->FromAirport?->city }}
-                                        ({{ $billing->Product?->Detail?->FromAirport?->country }})
+                                    <h3>{{ $item->Billing?->Product?->Detail?->FromAirport?->name }},
+                                        {{ $item->Billing?->Product?->Detail?->FromAirport?->city }}
+                                        ({{ $item->Billing?->Product?->Detail?->FromAirport?->country }})
                                     </h3>
                                     <div class="even-date">
                                         <i class="fa fa-calendar"></i>
                                         <time>
-                                            <span>{{ formatTime($billing->Product?->Detail?->estimated_fly) }}</span>
-                                            <span>{{ formatTime($billing->Product?->Detail?->estimated_fly, '%H:%I') }} to
-                                                {{ formatTime($billing->Product?->Detail?->estimated_arrival, '%H:%I') }}</span>
+                                            <span>{{ formatTime($item->Billing?->Product?->Detail?->estimated_fly) }}</span>
+                                            <span>{{ formatTime($item->Billing?->Product?->Detail?->estimated_fly, '%H:%I') }}
+                                                to
+                                                {{ formatTime($item->Billing?->Product?->Detail?->estimated_arrival, '%H:%I') }}</span>
                                         </time>
                                     </div>
                                     <div class="even-info">
                                         <i class="fa fa-map-marker"></i>
                                         <p>
-                                            {{ $billing->Product?->Detail?->DestinationAirport?->name }},
-                                            {{ $billing->Product?->Detail?->DestinationAirport?->city }}
-                                            ({{ $billing->Product?->Detail?->DestinationAirport?->country }})
+                                            {{ $item->Billing?->Product?->Detail?->DestinationAirport?->name }},
+                                            {{ $item->Billing?->Product?->Detail?->DestinationAirport?->city }}
+                                            ({{ $item->Billing?->Product?->Detail?->DestinationAirport?->country }})
                                         </p>
                                     </div>
                                     {{-- <a href="#">tickets</a> --}}
