@@ -22,6 +22,9 @@
                                 <x-partials.form name="price" title="Price" />
                             </div>
                             <div class="col-md-6">
+                                <x-partials.form name="qty" title="Jumlah Kursi" />
+                            </div>
+                            <div class="col-md-6">
 
                                 <div class="form-group">
                                     <label for="is_active">Status</label>

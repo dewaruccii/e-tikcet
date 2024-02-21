@@ -3,55 +3,116 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>Create Maskapai</h1>
-                <a href="{{ route('admin.maskapai.index') }}" class="btn btn-primary">Kembali</a>
+                <h1>Update Product</h1>
+                <a href="{{ route('admin.products.index') }}" class="btn btn-primary">Kembali</a>
             </div>
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('admin.maskapai.update', $maskapai->uuid) }}" method="POST"
+                    <form action="{{ route('admin.products.update', $product->uuid) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="col-md-6">
-                                <x-partials.form name="name" title="Nama Maskapai"
-                                    default="{{ old('name', $maskapai->name) }}" />
+                                <x-partials.form name="name" title="Nama Product"
+                                    default="{{ old('name', $product->name) }}" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <x-partials.textarea name="description" title="Tentang Product"
+                                    default="{{ old('description', $product->description) }}" />
+                            </div>
+                            <div class="col-md-6">
+                                <x-partials.form name="price" title="Price"
+                                    default="{{ old('price', $product->price) }}" />
+                            </div>
+                            <div class="col-md-6">
+                                <x-partials.form name="qty" title="Jumlah Kursi"
+                                    default="{{ old('qty', $product?->Detail->qty) }}" />
                             </div>
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <label for="owner">Owner</label>
-                                    <select name="owner" id="owner"
-                                        class="select2 form-control @error('owner') is-invalid @enderror">
-                                        <option value="">Select Owner</option>
-                                        @foreach ($user as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ $item->id == old('owner', $maskapai->owner_id) ? 'selected' : '' }}>
-                                                {{ $item->name }}
-                                                | {{ $item->email }}
-                                            </option>
-                                        @endforeach
+                                    <label for="is_active">Status</label>
+                                    <select name="is_active" id="is_active"
+                                        class="select2 form-control @error('is_active') is-invalid @enderror">
+                                        <option value="">Select Status</option>
+                                        <option value="1"
+                                            {{ old('is_active', $product->is_active) == 1 ? 'selected' : '' }}>Aktif
+                                        </option>
+                                        <option value="0"
+                                            {{ old('is_active', $product->is_active) == 0 ? 'selected' : '' }}>Tidak Aktif
+                                        </option>
+
                                     </select>
-                                    @error('owner')
+                                    @error('is_active')
                                         <small class="fst-italic text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <x-partials.textarea name="description" title="Tentang Maskapai"
-                                    default="{{ old('description', $maskapai->description) }}" />
+                                <div class="form-group">
+                                    <label for="from_airport">From Airport</label>
+                                    <select name="from_airport" id="from_airport"
+                                        class="select2-airport form-control @error('from_airport') is-invalid @enderror">
+                                        <option value="{{ old('from_airport', $product->Detail?->FromAirport?->id) }}"
+                                            selected>
+                                            {{ $product->Detail?->FromAirport?->name }}
+                                        </option>
+                                    </select>
+                                    @error('from_airport')
+                                        <small class="fst-italic text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <x-partials.form name="logo" title="Logo" type="file"
-                                    default="{{ old('logo', $maskapai->logo) }}" />
-                                <a href="{{ asset('storage' . $maskapai->logo) }}" id="linkPreview" class="spotlight"
-                                    data-title="Logo">
-
-                                    <img src="{{ asset('storage' . $maskapai->logo) }}" id="previewImage" alt="Preview"
-                                        style="{{ $maskapai->logo == null ? 'display: none' : '' }}; max-width: 200px; max-height: 200px;">
-                                </a>
+                                <div class="form-group">
+                                    <label for="destination_airport">Destination Airport</label>
+                                    <select name="destination_airport" id="destination_airport"
+                                        class="select2-airport form-control @error('destination_airport') is-invalid @enderror">
+                                    </select>
+                                    @error('destination_airport')
+                                        <small class="fst-italic text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <x-partials.form name="estimated_fly" title="Estimasi Tanggal Terbang"
+                                            type="date"
+                                            default="{{ old('estimated_fly', formatDate($product->Detail?->estimated_fly, 'Y-m-d')) }}" />
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <x-partials.form name="estimated_fly_hour" title=" Jam" type="time"
+                                            default="{{ old('estimated_fly_hour', formatDate($product->Detail?->estimated_fly, 'H:i')) }}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <x-partials.form name="estimated_arrival" title="Estimasi Tanggal Sampai"
+                                            type="date"
+                                            default="{{ old('estimated_arrival', formatDate($product->Detail?->estimated_arrival, 'Y-m-d')) }}" />
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <x-partials.form name="estimated_arrival_hour" title=" Jam" type="time"
+                                            default="{{ old('estimated_arrival_hour', formatDate($product->Detail?->estimated_arrival, 'H:i')) }}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <x-partials.upload name="thumbnail" title="Thumbnail Product" />
+                            </div>
+
+
                         </div>
+
                         <div class="d-flex justify-content-end">
                             <button class="btn btn-primary">Save</button>
                         </div>
@@ -63,6 +124,82 @@
 @endsection
 @push('js')
     <script>
+        $(document).ready(function() {
+            $(".uploads").imageUploader({
+                label: 'Drag & Drop files here or click to browse'
+            });
+
+            $(".select2-airport").select2({
+                ajax: {
+                    url: "{{ route('admin.fetch.airport') }}",
+                    dataType: 'json',
+                    type: 'POST',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            _token: '{{ csrf_token() }}',
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data, params) {
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        console.log(data);
+                        params.page = params.page || 1;
+
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'Search for a repository',
+                minimumInputLength: 1,
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection,
+                theme: 'bootstrap-5'
+
+            });
+
+            function formatRepo(repo) {
+                if (repo.loading) {
+                    return repo.text;
+                }
+                // var $container = 'test';
+                var $container = $(
+                    "<div class='select2-result-repository clearfix'>" +
+                    "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "<div class='select2-result-repository__description'></div>" +
+                    "<div class='select2-result-repository__country'>" +
+                    "<div class='select2-result-repository__timezone'>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>"
+                );
+                $container.find(".select2-result-repository__title").text(repo.name);
+                $container.find(".select2-result-repository__description").text(repo.tz);
+                $container.find(".select2-result-repository__country").text(repo.country + '-' + repo.city);
+                $container.find(".select2-result-repository__timezone").text('2222');
+
+
+
+
+                return $container;
+            }
+
+            function formatRepoSelection(repo) {
+                // console.log(repo);
+                return repo.name || repo.code;
+            }
+        });
+
         $(document).ready(function() {
             // Mendapatkan referensi ke elemen input gambar
             var inputFile = document.getElementById('logo');

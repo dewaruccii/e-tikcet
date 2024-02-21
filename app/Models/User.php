@@ -47,4 +47,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Maskapai::class, 'owner_id', 'id');
     }
+    public function Ticket()
+    {
+        return $this->hasMany(Ticket::class, 'user_id', 'id')->whereHas('Billing', function ($q) {
+            return  $q->where('status_id', 4);
+        });
+    }
+    public function Pesanan()
+    {
+        return $this->hasMany(Billing::class, 'user_id', 'id')->whereNotIn('status_id', [4]);
+    }
 }

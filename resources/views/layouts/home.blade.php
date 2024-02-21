@@ -35,9 +35,150 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css
 " rel="stylesheet">
+    <style>
+        .custom-dropdown>a {
+            color: #000;
+        }
+
+        .custom-dropdown>a .arrow {
+            display: inline-block;
+            position: relative;
+            -webkit-transition: .3s transform ease;
+            -o-transition: .3s transform ease;
+            transition: .3s transform ease;
+        }
+
+        .custom-dropdown.show>a .arrow {
+            -webkit-transform: rotate(-180deg);
+            -ms-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+        }
+
+        .custom-dropdown .btn:active,
+        .custom-dropdown .btn:focus {
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            outline: none;
+        }
+
+        .custom-dropdown .btn.btn-custom {
+            border: 1px solid #efefef;
+        }
+
+        .custom-dropdown .title-wrap {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .custom-dropdown .title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .custom-dropdown .dropdown-link .profile-pic {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 50px;
+            flex: 0 0 50px;
+        }
+
+        .custom-dropdown .dropdown-link .profile-pic img {
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .custom-dropdown .dropdown-link .profile-info h3,
+        .custom-dropdown .dropdown-link .profile-info span {
+            margin: 0;
+            padding: 0;
+        }
+
+        .custom-dropdown .dropdown-link .profile-info h3 {
+            font-size: 16px;
+        }
+
+        .custom-dropdown .dropdown-link .profile-info span {
+            display: block;
+            font-size: 13px;
+        }
+
+        .custom-dropdown .dropdown-menu {
+            border: 1px solid transparent !important;
+            -webkit-box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
+            margin-top: -10px !important;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+            border-radius: 0;
+            background: #fff;
+            right: auto !important;
+            left: auto !important;
+            -webkit-transition: .3s margin-top ease, .3s opacity ease, .3s visibility ease;
+            -o-transition: .3s margin-top ease, .3s opacity ease, .3s visibility ease;
+            transition: .3s margin-top ease, .3s opacity ease, .3s visibility ease;
+            visibility: hidden;
+        }
+
+        .custom-dropdown .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            margin-top: 0px !important;
+        }
+
+        .custom-dropdown .dropdown-menu a {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            padding: 15px 15px;
+            position: relative;
+            color: #b2bac1;
+        }
+
+        .custom-dropdown .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .custom-dropdown .dropdown-menu a .icon {
+            /* margin-right: px; */
+            /* display: inline-block; */
+        }
+
+        .custom-dropdown .dropdown-menu a:hover,
+        .custom-dropdown .dropdown-menu a:active,
+        .custom-dropdown .dropdown-menu a:focus {
+            background: #fff;
+            color: #000;
+        }
+
+        .custom-dropdown .dropdown-menu a:hover .number,
+        .custom-dropdown .dropdown-menu a:active .number,
+        .custom-dropdown .dropdown-menu a:focus .number {
+            color: #fff;
+        }
+
+        .custom-dropdown .dropdown-menu a .number {
+            padding: 2px 6px;
+            font-size: 11px;
+            background: #fd7e14;
+            position: absolute;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            right: 15px;
+            border-radius: 4px;
+            color: #fff;
+        }
+    </style>
     @stack('css')
 </head>
 
@@ -1450,12 +1591,93 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="{{ asset('assets/voyage') }}/vendors/fontawesome/all.min.js"></script>
     <script src="{{ asset('assets/voyage') }}/assets/js/theme.js"></script>
-
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&amp;display=swap"
         rel="stylesheet">
-    <script src="
-                    https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js
-                    "></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+    <script>
+        $(".select2").select2({
+            theme: 'bootstrap-5'
+        });
+    </script>
+    @if (session()->has('success'))
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: '{{ session()->get('success') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
+    @if (session()->has('failed'))
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: '{{ session()->get('failed') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
+    <script>
+        $(function() {
+
+            $('.custom-dropdown').on('show.bs.dropdown', function() {
+                var that = $(this);
+                setTimeout(function() {
+                    that.find('.dropdown-menu').addClass('active');
+                }, 100);
+
+
+            });
+            $('.custom-dropdown').on('hide.bs.dropdown', function() {
+                $(this).find('.dropdown-menu').removeClass('active');
+            });
+
+        });
+        $(document).ready(function() {
+            $(".logout").on('click', function() {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Logout "
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('logout') }}',
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(e) {
+                                if (e.status == 200) {
+                                    Swal.fire({
+                                        title: "Succesfully!",
+                                        text: " the page will automatically redirect!.",
+                                        icon: "success",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                }
+                            }
+                        })
+
+                    }
+                });
+            });
+        });
+    </script>
     @stack('js')
 </body>
 

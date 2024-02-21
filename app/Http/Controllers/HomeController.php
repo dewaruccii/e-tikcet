@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,7 @@ class HomeController extends Controller
     {
         $products = Product::where('is_active', 1);
 
-        $products = Product::where('is_active', 1);
+
 
         if ($request->has('from_airport') || $request->has('destination_airport') || $request->has('fly') || $request->has('arrival')) {
             $products->where(function ($query) use ($request) {

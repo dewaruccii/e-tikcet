@@ -37,3 +37,8 @@ function Counting($start, $end)
 
     return $selisihWaktu;
 }
+function removeUnderscore($string)
+{
+    $cleaned_text = str_replace(' ', ' ', ucwords(str_replace('_', ' ', $string)));
+    return $cleaned_text;
+}

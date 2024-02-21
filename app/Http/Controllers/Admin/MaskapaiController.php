@@ -17,6 +17,13 @@ class MaskapaiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware(['permission:maskapai']);
+        $this->middleware(['permission:maskapai.create'])->only(['create', 'store']);
+        $this->middleware(['permission:maskapai.edit'])->only(['edit', 'update']);
+        $this->middleware(['permission:maskapai.delete'])->only(['delete']);
+    }
     public function index()
     {
         $maskapai = Maskapai::get();
@@ -62,6 +69,10 @@ class MaskapaiController extends Controller
         }
         $maskapai->owner_id = $request->owner;
         $maskapai->save();
+
+        $user = User::findOrFail($request->owner);
+        $user->assignRole(2);
+        $user->save();
         return redirect()->route('admin.maskapai.index')->with('success', 'Maskapai has been created');
     }
 
@@ -118,6 +129,9 @@ class MaskapaiController extends Controller
         }
         $maskapai->owner_id = $request->owner;
         $maskapai->save();
+        $user = User::findOrFail($request->owner);
+        $user->assignRole(2);
+        $user->save();
         return redirect()->route('admin.maskapai.index')->with('success', 'Maskapai has been created');
     }
 
@@ -130,5 +144,13 @@ class MaskapaiController extends Controller
     public function destroy($id)
     {
         //
+        $maskapai = Maskapai::where('uuid', $id)->first();
+        if (!$maskapai) {
+            return response()->json(['message' => 'Maskapai has no found', 'status' => 404], 404);
+        }
+
+        $maskapai->is_active = 0;
+        $maskapai->save();
+        return response()->json(['message' => 'Maskapai has been deleted', 'status' => 200], 200);
     }
 }

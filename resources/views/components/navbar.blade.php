@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
-    <div class="container"><a class="navbar-brand" href="index.html"><img class="d-inline-block"
+    <div class="container"><a class="navbar-brand" href="{{ url('/') }}"><img class="d-inline-block"
                 src="{{ asset('assets/voyage') }}/assets/img/gallery/logo.png" width="50" alt="logo" /><span
                 class="fw-bold text-primary ms-2">voyage</span></a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
@@ -44,10 +44,19 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @if (Auth::user()->hasRole(1) || Auth::user()->hasRole(2))
+                                <a class="dropdown-item" href="{{ route('admin.index') }}"><i
+                                        class=" fa-solid fa-user mx-2"></i>Admin </a>
+                            @endif
+                            <a class="dropdown-item" href="{{ route('profile.index') }}"><i
+                                    class=" fa-solid fa-user mx-2"></i>Profile </a>
+                            <a class="dropdown-item" href="{{ route('pesanan.index') }}"><i
+                                    class=" fa-solid fa-ticket mx-2"></i>Pesanan <span
+                                    class="number">{{ Auth::user()->Pesanan->count() }}</span></a>
 
-
-                            <a class="dropdown-item" href="#"><i class=" fa-solid fa-ticket mx-2"></i>My
-                                Tickets <span class="number">3</span></a>
+                            <a class="dropdown-item" href="{{ route('tickets.index') }}"><i
+                                    class=" fa-solid fa-ticket mx-2"></i>My
+                                Tickets <span class="number">{{ Auth::user()->Ticket->count() }}</span></a>
                             {{-- <a class="dropdown-item" href="#"><span class="icon icon-mail_outline"></span>Inbox
                                 <span class="number">3</span></a>
                             <a class="dropdown-item" href="#"><span class="icon icon-people"></span>Following</a>
