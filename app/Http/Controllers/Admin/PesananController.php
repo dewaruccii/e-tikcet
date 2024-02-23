@@ -67,6 +67,8 @@ class PesananController extends Controller
     public function edit($id)
     {
         //
+        $pesanan =  Billing::where('uuid', $id)->first();
+        return view('admin.pesanan.edit', compact('pesanan'));
     }
 
     /**

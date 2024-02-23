@@ -34,7 +34,7 @@
                                 <th>{{ $item->Status?->name }}</th>
                                 <td>
                                     <div class="d-flex" style="gap:10px;">
-                                        <a href="{{ route('admin.maskapai.edit', $item->uuid) }}" class="btn btn-primary"><i
+                                        <a href="{{ route('admin.pesanan.edit', $item->uuid) }}" class="btn btn-primary"><i
                                                 class="fa fa-pencil-square" aria-hidden="true"></i>
                                         </a>
                                         @can('confirmation.approve')
